@@ -1,0 +1,85 @@
+Go Concurrency Patterns
+
+*Kanokorn* *Chongnguluam*
+Software Developer, Omise
+
+* Go Concurrency Patterns
+
+*Basic*
+
+ - Goroutines
+ - Channels
+ - WaitGroup
+
+*Patterns*
+
+ - Fan-In
+ - Fan-Out
+ - Server
+
+*Conclusion*
+
+
+* Basic Go Concurrency
+
+* Normal Code
+.play -numbers normal.go /^func main/,/^}/
+
+* Goroutines
+.play -numbers goroutines-with-sleep.go /^func main/,/^}/
+.image images/goroutines.png _ 500
+
+* WaitGroup
+.play -numbers goroutines-with-waitgroup.go /^func main/,/^}/
+
+* Channels
+.play -numbers channels.go /^func main/,/^}/
+.image images/channels.png _ 500
+
+* Channels (continue)
+.code -numbers channels.go /^func cat/,/^}/
+
+* Patterns
+
+* Fan-In
+A function can read from multiple inputs and proceed until all are closed by multiplexing the input channels onto a single channel that's closed when all the inputs are closed.
+.image images/fanin.png _ 500
+.link https://blog.golang.org/pipelines (read more)
+
+* Fan-In(1)
+.code fanin-01.go /^func fanIn/,/^}/
+.play -edit fanin-01.go /^func main/,/^}/
+
+
+* Fan-In (2)
+.code fanin-01.go /^func cat/,/^}/
+
+* Fan-In (Explicit cancellation)
+.play -edit fanin-02.go /^func main/,/^}/
+
+* Fan-In (Explicit cancellation)(1)
+.code -edit fanin-02.go /^func fanIn/,/^}/
+
+* Fan-In (Explicit cancellation)(2)
+.code -edit fanin-02.go /^func cat/,/^}/
+
+* <3
+.image images/Cherprang.gif _ 900
+
+* Fan-In using done context
+.play -edit fanin-03.go /^func main/,/^}/
+
+* Fan-In using done context (01)
+.code -edit fanin-03.go /^func fanIn/,/^}/
+
+* Fan-In using done context (02)
+.code -edit fanin-03.go /^func cat/,/^}/
+
+* Fan-Out
+Multiple functions can read from the same channel until that channel is closed; this is called fan-out. This provides a way to distribute work amongst a group of workers to parallelize CPU use and I/O.
+.image images/fanout.png _ 500
+
+* Conclusion
+- They're fun to play with, but don't overuse these ideas.
+- Always use the right tool for the job.
+.link https://talks.golang.org/2012/concurrency.slide#1 (go concurrency patterns - Rob Pike)
